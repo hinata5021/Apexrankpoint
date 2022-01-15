@@ -1,1 +1,2 @@
 # Apexrankpoint
+のりさん用
