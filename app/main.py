@@ -11,14 +11,16 @@ score_window.geometry("600x500")
 txtedit = open('app\status.txt', 'w', encoding='UTF-8')
 f = open('app\player.txt', 'r', encoding='UTF-8')
 match = open('app\matchid.txt', 'w', encoding='UTF-8')
-confMatch = open('app\matchid.txt', 'w', encoding='UTF-8')
+confMatch = open('app\matchid.txt', 'r+', encoding='UTF-8')
+apitxt = open('app\mapi.txt', 'r', encoding='UTF-8')
 
 
-playerlist = f.read()
-player = playerlist[0]
+playerr = f.readlines()
+apikyr = apitxt.readlines()
+player = playerr[0]
+apiky = apikyr[0]
 url = "https://public-api.tracker.gg/v2/apex/standard/profile/" + player + "/sessions"
-api_key = "112293c5-eb03-4ea1-a453-f0419f8e785d"
-res = requests.get(url, "TRN-Api-Key=" + api_key)
+res = requests.get(url, "TRN-Api-Key=" + apiky)
 ApexPS = json.loads(res.text)
 
 rp = ApexPS["data"]["items"][0]["stats"]["rankScore"]["value"]
@@ -42,73 +44,67 @@ txtedit.write(score)
 match.write(MatchID)
 
 
-ReadCM = confMatch.read()
+ReadCM = confMatch.read()#マッチIDをロード
 
 
 hukkin = 0
-reflab = tkinter.Label(text=u'今日の腹筋回数' + hukkin)
+reflab = tkinter.Label(text=u'今日の腹筋回数' + str(hukkin))
 reflab.pack()
 
-
-def refresh():
-    print("更新")
-    pprint(rp)
-    pprint(rpc)
-    rankpoint['text'] ='現在のランクポイント' + str(rp)
-    rankpointchange['text'] = 'ランクポイントの変化' + str(rpc)
-    MatchID = ApexPS["data"]["items"][0]["matches"][0]["id"]
-    match.write(MatchID)
-    score = str(rp) + "," + str(rpc)
-    txtedit.write(score)
-    hukin = hukkin + rp
-    huckin = hukin / 2
-    reflab["text"] = '今日の腹筋回数' + huckin
+refresh = tkinter.Label(text=u'')
+refresh.pack()
 
 def search():
+    txtedit = open('app\status.txt', 'w', encoding='UTF-8')
+    f = open('app\player.txt', 'r', encoding='UTF-8')
+    match = open('app\matchid.txt', 'w', encoding='UTF-8')
+    confMatch = open('app\matchid.txt', 'r+', encoding='UTF-8')
+    apitxt = open('app\mapi.txt', 'r', encoding='UTF-8')
+    playerr = f.readlines()
+    apikyr = apitxt.readlines()
+    player = playerr[0]
+    apiky = apikyr[0]
     url = "https://public-api.tracker.gg/v2/apex/standard/profile/" + player + "/sessions"
-    api_key = "112293c5-eb03-4ea1-a453-f0419f8e785d"
-    res = requests.get(url, "TRN-Api-Key=" + api_key)
+    res = requests.get(url, "TRN-Api-Key=" + apiky)
     ApexPS = json.loads(res.text)
     MatchID = ApexPS["data"]["items"][0]["matches"][0]["id"]
-    rp = ApexPS["data"]["items"][0]["stats"]["rankScore"]["value"]
-    rpc = ApexPS["data"]["items"][0]["stats"]["rankScoreChange"]["value"]
+    rp2 = ApexPS["data"]["items"][0]["stats"]["rankScore"]["value"]
+    rpc2 = ApexPS["data"]["items"][0]["stats"]["rankScoreChange"]["value"]
+
     if ReadCM != MatchID:
-        refresh()
-        reflab['text'] = '更新しました。'
+        print("更新")
+        rankpoint['text'] ='現在のランクポイント' + str(rp2)
+        rankpointchange['text'] = 'ランクポイントの変化' + str(rpc2)
+        match.write(MatchID)
+        score = str(rp2) + "," + str(rpc2)
+        txtedit.write(score)
+        hukin = rp2 - rp
+        huckin = hukin / 2
+        reflab["text"] = '今日の筋トレ回数: ' + str(huckin)
+        pprint(rp)
+        pprint(rpc)
+        refresh['text'] = '更新しました。'
+        confMatch.close()
+        apitxt.close()
+        match.close()
+        txtedit.close()
+        f.close()
 
     else:
-        reflab['text'] = 'すでに更新済みです。'
+        refresh['text'] = 'すでに更新済みです。'
 
 
 refb = tkinter.Button(text=u'更新', command=search)
 refb.pack()
 
 
-
-
-
-
-
-
+confMatch.close()
+apitxt.close()
 match.close()
 txtedit.close()
 f.close()
+
+
+
+
 score_window.mainloop()
-
-
-
-"""
-matchid.txt,player.txt,status.txtを読み込む
-ランクポイントとランクポイントの変化をメモ
-マッチIDもメモ
-
-マッチIDが更新されている場合
-    マッチIDとスコアを書き換える
-ランクポイント(txt)からランクポイント(変数)を引く
-変数にいれる
-その変数を表示
-
-
-
-
-"""

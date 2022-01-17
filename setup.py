@@ -6,6 +6,7 @@ setup_window.title("セットアップ")
 setup_window.geometry("400x300")
 
 txtedit = open('app/player.txt', 'w', encoding='UTF-8')
+apitxt = open('app/mapi.txt', 'w', encoding='UTF-8')
 
 #チェックボックスにチェックが入ってるかの確認
 origin = tkinter.BooleanVar()
@@ -40,14 +41,24 @@ if xbl.get() == True:
 if psn.get() == True:
     plt += "psn/"
 
+tllabel = tkinter.Label(text=u'IDを入力')
+tllabel.pack()
 #プレイヤーIDの入力欄
 PlyIDbox = tkinter.Entry()
 PlyIDbox.pack()
+apilabel = tkinter.Label(text=u'APIを入力')
+apilabel.pack()
+apiky = tkinter.Entry()
+apiky.pack()
+
 
 def write():
+    apid = apiky.get()
     PlayerID = PlyIDbox.get()
     PlayerList = plt + PlayerID#プラットフォームとIDを変数にぶち込む
-    txtedit.writelines(PlayerList)#変数PlayerListの値をtxtに書き込む
+    txtedit.write(PlayerList)#変数PlayerListの値をtxtに書き込む
+    apitxt.write(apid)
+    apitxt.close()
     txtedit.close()#txtの編集を終わる
     setup_window.destroy()#画面を閉じる
 
