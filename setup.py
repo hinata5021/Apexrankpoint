@@ -32,13 +32,13 @@ def check(event):
 plt = ""
 
 if origin.get() == True:
-    plt += "origin\n"
+    plt += "origin/"
 
 if xbl.get() == True:
-    plt += "xbl\n"
+    plt += "xbl/"
 
 if psn.get() == True:
-    plt += "psn\n"
+    plt += "psn/"
 
 #プレイヤーIDの入力欄
 PlyIDbox = tkinter.Entry()
@@ -46,7 +46,7 @@ PlyIDbox.pack()
 
 def write():
     PlayerID = PlyIDbox.get()
-    PlayerList = "Pform = " + plt + "PID = " + PlayerID#プラットフォームとIDを変数にぶち込む
+    PlayerList = plt + PlayerID#プラットフォームとIDを変数にぶち込む
     txtedit.writelines(PlayerList)#変数PlayerListの値をtxtに書き込む
     txtedit.close()#txtの編集を終わる
     setup_window.destroy()#画面を閉じる
