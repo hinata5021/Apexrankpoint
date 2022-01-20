@@ -18,7 +18,6 @@ url = "https://public-api.tracker.gg/v2/apex/standard/profile/" + str(player)
 res = requests.get(url, "TRN-Api-Key=" + str(apiky))
 apex = json.loads(res.text)
 beforejson = apex["data"]["segments"][0]["stats"]["rankScore"]["value"]
-pprint(beforejson)
 rankpoint = tkinter.Label(text=u'現在のランクポイント' + str(beforejson))
 rankpoint.pack()
 hukkin = 0
@@ -40,8 +39,6 @@ def ifjson():
     ApexPS = json.loads(res.text)
     afterjson = ApexPS["data"]["segments"][0]["stats"]["rankScore"]["value"]
     if beforejson != afterjson:
-        afterjson = ifjson().afterjson
-        print("更新")
         rankpoint['text'] ='現在のランクポイント' + str(afterjson)
         hukin = beforejson - afterjson
         x = hukin * -1
