@@ -32,6 +32,9 @@ URLにアクセスして、アカウントを登録してください。
 
 
 
+# 環境
 ※Pythonのバージョンは3.10.1でお願いします。
 https://www.python.org/downloads/release/python-3101/
 ↑Pythonの直リンクです。
+
+↑exeにしたんで必要なくなりました。
